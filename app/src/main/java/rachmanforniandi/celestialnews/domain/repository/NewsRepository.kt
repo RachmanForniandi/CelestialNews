@@ -7,7 +7,7 @@ import rachmanforniandi.celestialnews.helper.Resource
 
 interface NewsRepository {
 
-    suspend fun getNewsHeadlines(): Resource<NewsResponse>
+    suspend fun getNewsHeadlines(country:String,page:Int): Resource<NewsResponse>
     suspend fun getSearchedNews(searchQuery:String): Resource<NewsResponse>
     suspend fun savedNews(article:Article)
     suspend fun deleteNews(article:Article)

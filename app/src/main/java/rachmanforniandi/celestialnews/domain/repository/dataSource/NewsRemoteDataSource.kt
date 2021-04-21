@@ -4,6 +4,6 @@ import rachmanforniandi.celestialnews.data.model.NewsResponse
 import retrofit2.Response
 
 interface NewsRemoteDataSource {
-    suspend fun getTopHeadlineNews():Response<NewsResponse>
+    suspend fun getTopHeadlineNews(country:String,page:Int):Response<NewsResponse>
 
 }
