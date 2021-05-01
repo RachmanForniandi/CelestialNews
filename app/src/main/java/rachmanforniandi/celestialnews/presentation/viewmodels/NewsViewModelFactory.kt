@@ -1,4 +1,4 @@
-package rachmanforniandi.celestialnews.presentation
+package rachmanforniandi.celestialnews.presentation.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.ViewModel
@@ -9,7 +9,7 @@ class NewsViewModelFactory(private val app: Application,
                            val getNewsHeadlineUseCase: GetNewsHeadlineUseCase):ViewModelProvider.Factory
 {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return NewsViewModel(app, getNewsHeadlineUseCase)as T
+        return NewsViewModel(app, getNewsHeadlineUseCase) as T
     }
 
 }

@@ -6,11 +6,10 @@ import rachmanforniandi.celestialnews.domain.repository.dataSource.NewsRemoteDat
 import retrofit2.Response
 
 class NewsRemoteDataSourceImpl(
-    private val newsApiService: NewsApiService,
-    private val country:String,
-    private val page:Int
+    private val newsApiService: NewsApiService
 ):NewsRemoteDataSource {
-    override suspend fun getTopHeadlineNews(): Response<NewsResponse> {
+    override suspend fun getTopHeadlineNews(country:String,
+                                            page:Int): Response<NewsResponse> {
         return newsApiService.getTopHeadlineNews(country,page)
     }
 }

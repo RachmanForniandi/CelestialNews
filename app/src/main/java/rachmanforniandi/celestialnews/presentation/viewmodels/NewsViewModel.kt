@@ -1,4 +1,4 @@
-package rachmanforniandi.celestialnews.presentation
+package rachmanforniandi.celestialnews.presentation.viewmodels
 
 import android.app.Application
 import android.content.Context
@@ -7,7 +7,6 @@ import android.net.NetworkCapabilities
 import android.os.Build
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import rachmanforniandi.celestialnews.helper.Resource
 import kotlinx.coroutines.Dispatchers
