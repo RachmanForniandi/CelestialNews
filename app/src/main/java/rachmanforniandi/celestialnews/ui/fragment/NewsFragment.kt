@@ -5,31 +5,21 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
 import rachmanforniandi.celestialnews.R
+import rachmanforniandi.celestialnews.adapter.NewsAdapter
+import rachmanforniandi.celestialnews.databinding.FragmentNewsBinding
+import rachmanforniandi.celestialnews.presentation.viewmodels.NewsViewModel
+import rachmanforniandi.celestialnews.ui.activity.MainActivity
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [NewsFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class NewsFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
-
+    private lateinit var viewModel: NewsViewModel
+    private lateinit var newsAdapter: NewsAdapter
+    private lateinit var fragmentNewsBinding: FragmentNewsBinding
+    private var country = "id"
+    private var page = 1
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -38,23 +28,52 @@ class NewsFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_news, container, false)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment NewsFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            NewsFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        fragmentNewsBinding = FragmentNewsBinding.bind(view)
+        viewModel = (activity as MainActivity).viewModel
+        initListDataNews()
+        viewNewsList()
+    }
+
+    private fun viewNewsList(){
+        viewModel.getNewsHeadLines(country, page)
+        viewModel.newsHeadLines.observe(viewLifecycleOwner,{ response->
+            when(response){
+                is rachmanforniandi.celestialnews.helper.Resource.Success->{
+                    hideProgressBar()
+                    response.data.let {
+                        newsAdapter.differ.submitList(it?.articles?.toList())
+                    }
+                }
+                is rachmanforniandi.celestialnews.helper.Resource.Error->{
+                    hideProgressBar()
+                    response.message.let {
+                        Toast.makeText(activity,"Terjadi error: $it",Toast.LENGTH_LONG).show()
+                    }
+                }
+                is rachmanforniandi.celestialnews.helper.Resource.Loading->{
+                    showProgressBar()
                 }
             }
+        })
     }
+
+    private fun initListDataNews() {
+        newsAdapter = NewsAdapter()
+        fragmentNewsBinding.rvNews.apply {
+            adapter = newsAdapter
+            //layoutManager = LinearLayoutManager(activity)
+        }
+    }
+
+    private fun showProgressBar(){
+        fragmentNewsBinding.pgNews.visibility = View.VISIBLE
+    }
+
+    private fun hideProgressBar(){
+        fragmentNewsBinding.pgNews.visibility = View.INVISIBLE
+    }
+
+
 }

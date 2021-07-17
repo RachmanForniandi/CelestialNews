@@ -16,19 +16,23 @@ import rachmanforniandi.celestialnews.domain.usecase.GetNewsHeadlineUseCase
 import java.lang.Exception
 
 
-class NewsViewModel(private val app:Application,val getNewsHeadlineUseCase: GetNewsHeadlineUseCase): AndroidViewModel(app) {
-    val  newsHeadLines: MutableLiveData<Resource<NewsResponse>> = MutableLiveData()
+class NewsViewModel(
+    private val app:Application,
+    private val getNewsHeadlinesUseCase: GetNewsHeadlineUseCase
+) : AndroidViewModel(app) {
+    val newsHeadLines: MutableLiveData<Resource<NewsResponse>> = MutableLiveData()
 
-    fun getNewsHeadLinesData(country:String,page:Int) = viewModelScope.launch (Dispatchers.IO){
+    fun getNewsHeadLines(country: String, page: Int) = viewModelScope.launch(Dispatchers.IO) {
         newsHeadLines.postValue(Resource.Loading())
-        try {
-            if (isNetworkAvailable(app)){
-                //newsHeadLines.postValue(Resource.Loading())
-                val apiResult = getNewsHeadlineUseCase.execute(country,page)
+        try{
+            if(isNetworkAvailable(app)) {
+
+                val apiResult = getNewsHeadlinesUseCase.execute(country, page)
                 newsHeadLines.postValue(apiResult)
             }else{
                 newsHeadLines.postValue(Resource.Error("Internet is not available"))
             }
+
         }catch (e:Exception){
             newsHeadLines.postValue(Resource.Error(e.message.toString()))
         }
@@ -60,9 +64,7 @@ class NewsViewModel(private val app:Application,val getNewsHeadlineUseCase: GetN
             }
         }
         return false
+
     }
 
-
-
-    
 }
