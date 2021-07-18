@@ -25,7 +25,6 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
         binding.bnvNews.setupWithNavController(
             fragment_main.findNavController()
         )
