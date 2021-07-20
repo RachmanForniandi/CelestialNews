@@ -1,10 +1,12 @@
 package rachmanforniandi.celestialnews.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.exianewsv3.helpers.formNewsApiDate
 import rachmanforniandi.celestialnews.data.model.Article
 import rachmanforniandi.celestialnews.databinding.ItemNewsBinding
@@ -24,8 +26,6 @@ class NewsAdapter : RecyclerView.Adapter<NewsAdapter.NewsViewHolder>(){
 
     val differ = AsyncListDiffer(this,callback)
 
-
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
         val binding = ItemNewsBinding
                 .inflate(LayoutInflater.from(parent.context),parent,false)
@@ -43,10 +43,15 @@ class NewsAdapter : RecyclerView.Adapter<NewsAdapter.NewsViewHolder>(){
 
     inner class NewsViewHolder (val view:ItemNewsBinding):RecyclerView.ViewHolder(view.root){
         fun bind(article: Article){
+            Log.i("MYTAG","came here ${article.title}")
             view.txtNewsTitle.text = article.title
             view.txtNewsContent.text = article.description.let { formNewsApiDate(it) }
             view.txtNewsTime.text = article.publishedAt
             view.txtSourceNews.text = article.source?.name
+
+            Glide.with(view.imgNews)
+                .load(article.urlToImage)
+                .into(view.imgNews)
 
         }
     }

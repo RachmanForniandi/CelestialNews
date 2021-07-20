@@ -3,6 +3,7 @@ package rachmanforniandi.celestialnews.ui.activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,10 +26,11 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragment_main)
+                as NavHostFragment
+        val navController = navHostFragment.navController
 
-        binding.bnvNews.setupWithNavController(
-            fragment_main.findNavController()
-        )
+        binding.bnvNews.setupWithNavController(navController)
         viewModel = ViewModelProvider(this,factory).get(NewsViewModel::class.java)
     }
 }

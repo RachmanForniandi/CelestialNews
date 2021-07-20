@@ -1,6 +1,7 @@
 package rachmanforniandi.celestialnews.ui.fragment
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -37,14 +38,16 @@ class NewsFragment : Fragment() {
     }
 
     private fun viewNewsList(){
-        viewModel.getNewsHeadLines(country, page)
+        viewModel.getNewsHeadLines(country,page)
         viewModel.newsHeadLines.observe(viewLifecycleOwner,{ response->
             when(response){
                 is rachmanforniandi.celestialnews.helper.Resource.Success->{
                     hideProgressBar()
                     response.data.let {
+                        Log.i("MYTAG","came here ${it?.articles?.toList()?.size}")
                         newsAdapter.differ.submitList(it?.articles?.toList())
                     }
+                    Log.e("testResponse",""+response.data)
                 }
                 is rachmanforniandi.celestialnews.helper.Resource.Error->{
                     hideProgressBar()
@@ -62,9 +65,11 @@ class NewsFragment : Fragment() {
     private fun initListDataNews() {
         newsAdapter = NewsAdapter()
         fragmentNewsBinding.rvNews.apply {
+
             adapter = newsAdapter
             //layoutManager = LinearLayoutManager(activity)
         }
+        fragmentNewsBinding.rvNews.setHasFixedSize(true)
     }
 
     private fun showProgressBar(){
