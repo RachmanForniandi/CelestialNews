@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.fragment.app.viewModels
 import rachmanforniandi.celestialnews.R
 import rachmanforniandi.celestialnews.adapter.NewsAdapter
 import rachmanforniandi.celestialnews.databinding.FragmentNewsBinding
@@ -16,7 +16,7 @@ import rachmanforniandi.celestialnews.ui.activity.MainActivity
 
 class NewsFragment : Fragment() {
 
-    private lateinit var viewModel: NewsViewModel
+    private  lateinit var viewModel: NewsViewModel
     private lateinit var newsAdapter: NewsAdapter
     private lateinit var fragmentNewsBinding: FragmentNewsBinding
     private var country = "id"
