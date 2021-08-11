@@ -1,11 +1,11 @@
 package rachmanforniandi.celestialnews.presentation.di
 
+import androidx.viewbinding.BuildConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityComponent
 import dagger.hilt.components.SingletonComponent
-import rachmanforniandi.celestialnews.BuildConfig
+import rachmanforniandi.celestialnews.BuildConfig.BASE_URL
 import rachmanforniandi.celestialnews.data.networkConfig.NewsApiService
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -20,7 +20,7 @@ class NetModule {
     fun provideRetrofit():Retrofit{
         return Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl(BuildConfig.BASE_URL)
+            .baseUrl(BASE_URL)
             .build()
     }
 

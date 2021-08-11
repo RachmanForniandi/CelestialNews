@@ -7,7 +7,7 @@ import rachmanforniandi.celestialnews.domain.usecase.GetNewsHeadlineUseCase
 
 class NewsViewModelFactory(
     private val app: Application,
-    val getNewsHeadlineUseCase: GetNewsHeadlineUseCase
+    private val getNewsHeadlineUseCase: GetNewsHeadlineUseCase
     ):ViewModelProvider.Factory
 {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {

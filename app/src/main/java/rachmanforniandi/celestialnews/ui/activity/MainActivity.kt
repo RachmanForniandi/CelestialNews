@@ -9,16 +9,19 @@ import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
 import rachmanforniandi.celestialnews.R
+import rachmanforniandi.celestialnews.adapter.NewsAdapter
 import rachmanforniandi.celestialnews.databinding.ActivityMainBinding
 import rachmanforniandi.celestialnews.presentation.viewmodels.NewsViewModel
 import rachmanforniandi.celestialnews.presentation.viewmodels.NewsViewModelFactory
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(R.layout.activity_main) {
+class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var factory: NewsViewModelFactory
     lateinit var viewModel:NewsViewModel
+    @Inject
+    lateinit var newsAdapter: NewsAdapter
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {

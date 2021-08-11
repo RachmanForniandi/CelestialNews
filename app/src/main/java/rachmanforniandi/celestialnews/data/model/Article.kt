@@ -5,8 +5,8 @@ import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 data class Article (
-    @PrimaryKey(autoGenerate = true)
-    val id : Int? = null,
+    /*@PrimaryKey(autoGenerate = true)
+    val id : Int? = null,*/
     @SerializedName("author")
     val author: String?,
     @SerializedName("content")

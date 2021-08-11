@@ -11,7 +11,7 @@ import com.example.exianewsv3.helpers.formNewsApiDate
 import rachmanforniandi.celestialnews.data.model.Article
 import rachmanforniandi.celestialnews.databinding.ItemNewsBinding
 
-class NewsAdapter : RecyclerView.Adapter<NewsAdapter.NewsViewHolder>(){
+class NewsAdapter:RecyclerView.Adapter<NewsAdapter.NewsViewHolder>(){
 
     private val callback = object:DiffUtil.ItemCallback<Article>(){
 
@@ -41,17 +41,18 @@ class NewsAdapter : RecyclerView.Adapter<NewsAdapter.NewsViewHolder>(){
         return differ.currentList.size
     }
 
-    inner class NewsViewHolder (val view:ItemNewsBinding):RecyclerView.ViewHolder(view.root){
+    inner class NewsViewHolder (val binding:ItemNewsBinding):RecyclerView.ViewHolder(binding.root){
         fun bind(article: Article){
             Log.i("MYTAG","came here ${article.title}")
-            view.txtNewsTitle.text = article.title
-            view.txtNewsContent.text = article.description.let { formNewsApiDate(it) }
-            view.txtNewsTime.text = article.publishedAt
-            view.txtSourceNews.text = article.source?.name
+            val formatDateNews = article.publishedAt.let { formNewsApiDate(it) }
+            binding.txtNewsTitle.text = article.title
+            binding.txtNewsContent.text = article.description
+            binding.txtNewsTime.text = "$formatDateNews"
+            binding.txtSourceNews.text = article.source?.name
 
-            Glide.with(view.imgNews)
+            Glide.with(binding.imgNews)
                 .load(article.urlToImage)
-                .into(view.imgNews)
+                .into(binding.imgNews)
 
         }
     }

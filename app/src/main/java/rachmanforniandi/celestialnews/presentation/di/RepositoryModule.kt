@@ -3,6 +3,7 @@ package rachmanforniandi.celestialnews.presentation.di
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.internal.managers.ApplicationComponentManager
 import dagger.hilt.components.SingletonComponent
 import rachmanforniandi.celestialnews.domain.repository.NewsRepository
 import rachmanforniandi.celestialnews.domain.repository.NewsRepositoryImpl
@@ -15,7 +16,8 @@ class RepositoryModule {
 
     @Singleton
     @Provides
-    fun provideNewsRepository(newsRemoteDataSource: NewsRemoteDataSource):NewsRepository{
+    fun provideNewsRepository(
+        newsRemoteDataSource: NewsRemoteDataSource):NewsRepository{
         return NewsRepositoryImpl(newsRemoteDataSource)
     }
 }

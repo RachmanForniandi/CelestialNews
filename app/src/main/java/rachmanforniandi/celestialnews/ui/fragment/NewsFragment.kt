@@ -7,14 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.observe
 import rachmanforniandi.celestialnews.R
 import rachmanforniandi.celestialnews.adapter.NewsAdapter
 import rachmanforniandi.celestialnews.databinding.FragmentNewsBinding
 import rachmanforniandi.celestialnews.presentation.viewmodels.NewsViewModel
 import rachmanforniandi.celestialnews.ui.activity.MainActivity
 
-class NewsFragment : Fragment() {
+class NewsFragment : Fragment(R.layout.fragment_news) {
 
     private  lateinit var viewModel: NewsViewModel
     private lateinit var newsAdapter: NewsAdapter
@@ -33,8 +33,10 @@ class NewsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         fragmentNewsBinding = FragmentNewsBinding.bind(view)
         viewModel = (activity as MainActivity).viewModel
+        newsAdapter = (activity as MainActivity).newsAdapter
         initListDataNews()
         viewNewsList()
+
     }
 
     private fun viewNewsList(){
@@ -42,23 +44,30 @@ class NewsFragment : Fragment() {
         viewModel.newsHeadLines.observe(viewLifecycleOwner,{ response->
             when(response){
                 is rachmanforniandi.celestialnews.helper.Resource.Success->{
+
                     hideProgressBar()
-                    response.data.let {
-                        Log.i("MYTAG","came here ${it?.articles?.toList()?.size}")
-                        newsAdapter.differ.submitList(it?.articles?.toList())
+                    response.data?.let {
+                        Log.i("MYTAG","came here ${it.articles.toList().size}")
+                        newsAdapter.differ.submitList(it.articles.toList())
                     }
                     Log.e("testResponse",""+response.data)
+                    Log.e("response_msg_1",""+response)
                 }
                 is rachmanforniandi.celestialnews.helper.Resource.Error->{
                     hideProgressBar()
-                    response.message.let {
+                    response.message?.let {
                         Toast.makeText(activity,"Terjadi error: $it",Toast.LENGTH_LONG).show()
                     }
+                    Log.e("response_msg_2",""+response)
                 }
                 is rachmanforniandi.celestialnews.helper.Resource.Loading->{
                     showProgressBar()
                 }
+                //Log.e("response_msg_3",""+response.message)
+
             }
+            //Log.e("response_msg",""+response)
+            //Log.e("response_data",""+response.data)
         })
     }
 
@@ -67,7 +76,6 @@ class NewsFragment : Fragment() {
         fragmentNewsBinding.rvNews.apply {
 
             adapter = newsAdapter
-            //layoutManager = LinearLayoutManager(activity)
         }
         fragmentNewsBinding.rvNews.setHasFixedSize(true)
     }
@@ -77,7 +85,7 @@ class NewsFragment : Fragment() {
     }
 
     private fun hideProgressBar(){
-        fragmentNewsBinding.pgNews.visibility = View.INVISIBLE
+        fragmentNewsBinding.pgNews.visibility = View.GONE
     }
 
 

@@ -16,7 +16,8 @@ import rachmanforniandi.celestialnews.domain.usecase.GetNewsHeadlineUseCase
 import java.lang.Exception
 
 
-class NewsViewModel(private val app:Application, private val getNewsHeadlinesUseCase: GetNewsHeadlineUseCase
+class NewsViewModel(private val app:Application,
+                    private val getNewsHeadlinesUseCase: GetNewsHeadlineUseCase
 ) : AndroidViewModel(app) {
     val newsHeadLines: MutableLiveData<Resource<NewsResponse>> = MutableLiveData()
 
@@ -24,6 +25,7 @@ class NewsViewModel(private val app:Application, private val getNewsHeadlinesUse
         newsHeadLines.postValue(Resource.Loading())
         try{
             if(isNetworkAvailable(app)) {
+
                 val apiResult = getNewsHeadlinesUseCase.execute(country, page)
                 newsHeadLines.postValue(apiResult)
             }else{
