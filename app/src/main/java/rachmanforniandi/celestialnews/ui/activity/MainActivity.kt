@@ -4,10 +4,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_main.*
 import rachmanforniandi.celestialnews.R
 import rachmanforniandi.celestialnews.adapter.NewsAdapter
 import rachmanforniandi.celestialnews.databinding.ActivityMainBinding
@@ -23,7 +21,6 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var newsAdapter: NewsAdapter
     private lateinit var binding: ActivityMainBinding
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)

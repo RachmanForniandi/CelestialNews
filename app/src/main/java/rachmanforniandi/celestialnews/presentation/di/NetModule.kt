@@ -5,6 +5,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
 import rachmanforniandi.celestialnews.BuildConfig.BASE_URL
 import rachmanforniandi.celestialnews.data.networkConfig.NewsApiService
 import retrofit2.Retrofit
@@ -20,6 +21,7 @@ class NetModule {
     fun provideRetrofit():Retrofit{
         return Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
+            .client(OkHttpClient())
             .baseUrl(BASE_URL)
             .build()
     }

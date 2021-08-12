@@ -48,13 +48,25 @@ class NewsAdapter:RecyclerView.Adapter<NewsAdapter.NewsViewHolder>(){
             binding.txtNewsTitle.text = article.title
             binding.txtNewsContent.text = article.description
             binding.txtNewsTime.text = "$formatDateNews"
-            binding.txtSourceNews.text = article.source?.name
+            binding.txtSourceNews.text = article.source.name
 
             Glide.with(binding.imgNews)
                 .load(article.urlToImage)
                 .into(binding.imgNews)
 
+            binding.root.setOnClickListener {
+                onItemClickListener?.let {
+                    it(article)
+                }
+            }
+
         }
+    }
+
+    private var onItemClickListener:((Article)->Unit)?=null
+
+    fun setOnItemClickListener(listener:(Article)->Unit){
+        onItemClickListener = listener
     }
 
 }
