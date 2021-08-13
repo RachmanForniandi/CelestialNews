@@ -6,6 +6,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import rachmanforniandi.celestialnews.domain.usecase.GetNewsHeadlineUseCase
+import rachmanforniandi.celestialnews.domain.usecase.GetSearchedNewsUseCase
 import rachmanforniandi.celestialnews.presentation.viewmodels.NewsViewModelFactory
 import javax.inject.Singleton
 
@@ -17,9 +18,11 @@ class FactoryModule {
     @Provides
     fun provideNewsViewModelFactory(
         application: Application,
-        getNewsHeadlineUseCase: GetNewsHeadlineUseCase):NewsViewModelFactory{
+        getNewsHeadlineUseCase: GetNewsHeadlineUseCase,
+        getSearchedNewsUseCase: GetSearchedNewsUseCase
+    ):NewsViewModelFactory{
         return NewsViewModelFactory(
             application,
-            getNewsHeadlineUseCase)
+            getNewsHeadlineUseCase,getSearchedNewsUseCase)
     }
 }

@@ -6,7 +6,7 @@ import rachmanforniandi.celestialnews.helper.Resource
 
 class GetSearchedNewsUseCase(private val newsRepository: NewsRepository) {
 
-    suspend fun execute(searchQuery:String): Resource<NewsResponse> {
-        return newsRepository.getSearchedNews(searchQuery)
+    suspend fun execute(country:String,searchQuery:String,page:Int): Resource<NewsResponse> {
+        return newsRepository.getSearchedNews(country,searchQuery,page)
     }
 }

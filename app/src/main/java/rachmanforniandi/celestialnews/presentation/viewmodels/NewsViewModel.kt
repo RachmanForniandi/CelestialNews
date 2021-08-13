@@ -13,11 +13,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import rachmanforniandi.celestialnews.data.model.NewsResponse
 import rachmanforniandi.celestialnews.domain.usecase.GetNewsHeadlineUseCase
+import rachmanforniandi.celestialnews.domain.usecase.GetSearchedNewsUseCase
+import retrofit2.Response
 import java.lang.Exception
 
 
 class NewsViewModel(private val app:Application,
-                    private val getNewsHeadlinesUseCase: GetNewsHeadlineUseCase
+                    private val getNewsHeadlinesUseCase: GetNewsHeadlineUseCase,
+                    private val getSearchedNewsUseCase: GetSearchedNewsUseCase
 ) : AndroidViewModel(app) {
     val newsHeadLines: MutableLiveData<Resource<NewsResponse>> = MutableLiveData()
 
@@ -62,6 +65,23 @@ class NewsViewModel(private val app:Application,
             }
         }
         return false
+    }
+
+    //search news
+    val searchedNews: MutableLiveData<Resource<NewsResponse>> = MutableLiveData()
+
+    fun searchNews(country: String,searchQuery: String,page: Int) = viewModelScope.launch {
+        searchedNews.postValue(Resource.Loading())
+        try {
+            if (isNetworkAvailable(app)){
+                val apiSearchResponse = getSearchedNewsUseCase.execute(country,searchQuery,page)
+                searchedNews.postValue(apiSearchResponse)
+            }else{
+                searchedNews.postValue(Resource.Error("Internet is not available"))
+            }
+        }catch (e:Exception){
+            searchedNews.postValue(Resource.Error(e.message.toString()))
+        }
 
     }
 

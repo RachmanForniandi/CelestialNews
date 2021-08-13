@@ -7,11 +7,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AbsListView
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import rachmanforniandi.celestialnews.R
 import rachmanforniandi.celestialnews.adapter.NewsAdapter
 import rachmanforniandi.celestialnews.databinding.FragmentNewsBinding
@@ -53,12 +57,77 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
         }
         initListDataNews()
         viewNewsList()
-
+        setSearchView()
     }
 
     private fun viewNewsList(){
         viewModel.getNewsHeadLines(country,page)
         viewModel.newsHeadLines.observe(viewLifecycleOwner,{ response->
+            when(response){
+                is rachmanforniandi.celestialnews.helper.Resource.Success->{
+
+                    hideProgressBar()
+                    response.data?.let {
+                        Log.i("MYTAG","came here ${it.articles.toList().size}")
+                        newsAdapter.differ.submitList(it.articles.toList())
+                        if (it.totalResults%20 ==0){
+                            pages = it.totalResults / 20
+                        }else{
+                            pages = it.totalResults/20+1
+                        }
+                        isLastPage = page == pages
+                    }
+                    Log.e("testResponse",""+response.data)
+                }
+                is rachmanforniandi.celestialnews.helper.Resource.Error->{
+                    hideProgressBar()
+                    response.message?.let {
+                        Toast.makeText(activity,"Terjadi error: $it",Toast.LENGTH_LONG).show()
+                    }
+                    Log.e("response_msg_2",""+response)
+                }
+                is rachmanforniandi.celestialnews.helper.Resource.Loading->{
+                    showProgressBar()
+                }
+                //Log.e("response_msg_3",""+response.message)
+
+            }
+            //Log.e("response_msg",""+response)
+            //Log.e("response_data",""+response.data)
+        })
+    }
+
+    //search
+
+    private fun setSearchView(){
+        fragmentNewsBinding.svNews.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                viewModel.searchNews(country,query.toString(),page)
+                viewSearchedNews()
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                MainScope().launch {
+                    delay(2000)
+                    viewModel.searchNews(country,newText.toString(),page)
+                    viewSearchedNews()
+                }
+                return false
+            }
+        })
+        fragmentNewsBinding.svNews.setOnCloseListener(object :androidx.appcompat.widget.SearchView.OnCloseListener{
+            override fun onClose(): Boolean {
+                initListDataNews()
+                viewNewsList()
+                return false
+            }
+
+        })
+    }
+    fun viewSearchedNews(){
+
+        viewModel.searchedNews.observe(viewLifecycleOwner,{ response->
             when(response){
                 is rachmanforniandi.celestialnews.helper.Resource.Success->{
 

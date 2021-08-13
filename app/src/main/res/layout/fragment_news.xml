@@ -5,6 +5,11 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.fragment.NewsFragment">
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/sv_news"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/search_background"/>
 
     <ProgressBar
         android:id="@+id/pg_news"
@@ -19,6 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="8dp"
+        android:layout_below="@id/sv_news"
         tools:listitem="@layout/item_news"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 

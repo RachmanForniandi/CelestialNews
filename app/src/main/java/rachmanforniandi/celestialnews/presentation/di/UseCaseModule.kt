@@ -6,6 +6,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import rachmanforniandi.celestialnews.domain.repository.NewsRepository
 import rachmanforniandi.celestialnews.domain.usecase.GetNewsHeadlineUseCase
+import rachmanforniandi.celestialnews.domain.usecase.GetSearchedNewsUseCase
 import javax.inject.Singleton
 
 @Module
@@ -18,6 +19,14 @@ class UseCaseModule {
         newsRepository: NewsRepository
     ):GetNewsHeadlineUseCase{
         return GetNewsHeadlineUseCase(newsRepository)
+    }
+
+    @Singleton
+    @Provides
+    fun provideGetSearchedNewsUseCase(
+        newsRepository: NewsRepository
+    ):GetSearchedNewsUseCase{
+        return GetSearchedNewsUseCase(newsRepository)
     }
 
 

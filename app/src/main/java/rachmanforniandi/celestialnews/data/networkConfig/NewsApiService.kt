@@ -16,4 +16,16 @@ interface NewsApiService {
         @Query("apiKey")
         apiKey:String = BuildConfig.implementation_KEY
     ):Response<NewsResponse>
+
+    @GET("v2/top-headlines")
+    suspend fun getSearchedTopHeadlineNews(
+        @Query("country")
+        country:String,
+        @Query("q")
+        searchQuery:String,
+        @Query("page")
+        page:Int,
+        @Query("apiKey")
+        apiKey:String = BuildConfig.implementation_KEY
+    ):Response<NewsResponse>
 }
