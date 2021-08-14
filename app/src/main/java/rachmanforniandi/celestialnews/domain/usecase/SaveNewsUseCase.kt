@@ -5,7 +5,6 @@ import rachmanforniandi.celestialnews.data.model.Article
 import rachmanforniandi.celestialnews.domain.repository.NewsRepository
 
 class SaveNewsUseCase(private val newsRepository: NewsRepository) {
-    fun execute():Flow<List<Article>>{
-        return newsRepository.getSavedNews()
-    }
+    suspend fun execute(article: Article)= newsRepository.savedNews(article)
+
 }

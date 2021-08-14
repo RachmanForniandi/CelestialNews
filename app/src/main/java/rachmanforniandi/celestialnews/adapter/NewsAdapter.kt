@@ -41,16 +41,17 @@ class NewsAdapter:RecyclerView.Adapter<NewsAdapter.NewsViewHolder>(){
         return differ.currentList.size
     }
 
-    inner class NewsViewHolder (val binding:ItemNewsBinding):RecyclerView.ViewHolder(binding.root){
+    inner class NewsViewHolder (val binding:ItemNewsBinding):
+        RecyclerView.ViewHolder(binding.root){
         fun bind(article: Article){
             Log.i("MYTAG","came here ${article.title}")
             val formatDateNews = article.publishedAt.let { formNewsApiDate(it) }
             binding.txtNewsTitle.text = article.title
             binding.txtNewsContent.text = article.description
             binding.txtNewsTime.text = "$formatDateNews"
-            binding.txtSourceNews.text = article.source.name
+            binding.txtSourceNews.text = article.source?.name
 
-            Glide.with(binding.imgNews)
+            Glide.with(binding.imgNews.context)
                 .load(article.urlToImage)
                 .into(binding.imgNews)
 

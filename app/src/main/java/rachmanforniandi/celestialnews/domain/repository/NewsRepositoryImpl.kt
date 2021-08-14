@@ -3,12 +3,14 @@ package rachmanforniandi.celestialnews.domain.repository
 import kotlinx.coroutines.flow.Flow
 import rachmanforniandi.celestialnews.data.model.Article
 import rachmanforniandi.celestialnews.data.model.NewsResponse
+import rachmanforniandi.celestialnews.domain.repository.dataSource.NewsLocalDataSource
 import rachmanforniandi.celestialnews.domain.repository.dataSource.NewsRemoteDataSource
 import rachmanforniandi.celestialnews.helper.Resource
 import retrofit2.Response
 
 class NewsRepositoryImpl(
-    private val newsRemoteDataSource: NewsRemoteDataSource
+    private val newsRemoteDataSource: NewsRemoteDataSource,
+    private val newsLocalDataSource: NewsLocalDataSource
 ):NewsRepository {
     override suspend fun getNewsHeadlines(country : String, page : Int): Resource<NewsResponse> {
         return responseToResource(newsRemoteDataSource
@@ -34,7 +36,7 @@ class NewsRepositoryImpl(
 
 
     override suspend fun savedNews(article: Article) {
-        TODO("Not yet implemented")
+        newsLocalDataSource.saveArticleNewsToDB(article)
     }
 
 

@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AbsListView
-import android.widget.SearchView
+import androidx.appcompat.widget.SearchView
 import android.widget.Toast
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
@@ -51,9 +51,10 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
                 putSerializable("selected_article",it)
             }
             findNavController().navigate(
-                R.id.action_newsFragment_to_infoFragment,bundle
+                R.id.action_newsFragment_to_infoFragment,
+                bundle
             )
-            println("testBundle"+ bundle)
+            //println("testBundle"+ bundle)
         }
         initListDataNews()
         viewNewsList()
@@ -100,7 +101,7 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
     //search
 
     private fun setSearchView(){
-        fragmentNewsBinding.svNews.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
+        fragmentNewsBinding.svNews.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 viewModel.searchNews(country,query.toString(),page)
                 viewSearchedNews()
@@ -116,7 +117,7 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
                 return false
             }
         })
-        fragmentNewsBinding.svNews.setOnCloseListener(object :androidx.appcompat.widget.SearchView.OnCloseListener{
+        fragmentNewsBinding.svNews.setOnCloseListener(object :SearchView.OnCloseListener{
             override fun onClose(): Boolean {
                 initListDataNews()
                 viewNewsList()

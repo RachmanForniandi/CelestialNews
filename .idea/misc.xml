@@ -8,6 +8,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/USER/StudioProjects/CelestialNews/app/src/main/res/drawable/favorite_button_background.xml" value="0.2" />
+        <entry key="..\:/Users/USER/StudioProjects/CelestialNews/app/src/main/res/layout/fragment_info.xml" value="0.264" />
         <entry key="..\:/Users/USER/StudioProjects/CelestialNews/app/src/main/res/layout/fragment_news.xml" value="0.21754385964912282" />
       </map>
     </option>
