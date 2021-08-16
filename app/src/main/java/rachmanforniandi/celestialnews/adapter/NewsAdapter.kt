@@ -1,5 +1,6 @@
 package rachmanforniandi.celestialnews.adapter
 
+import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -34,7 +35,13 @@ class NewsAdapter:RecyclerView.Adapter<NewsAdapter.NewsViewHolder>(){
 
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
         val news = differ.currentList[position]
+        //holder.binding.cvNews.setOnClickListener()
         holder.bind(news)
+        holder.itemView.setOnClickListener { view->
+            onItemClickListener?.let {
+                it(news)
+            }
+        }
     }
 
     override fun getItemCount(): Int {
@@ -55,11 +62,11 @@ class NewsAdapter:RecyclerView.Adapter<NewsAdapter.NewsViewHolder>(){
                 .load(article.urlToImage)
                 .into(binding.imgNews)
 
-            binding.root.setOnClickListener {
+            /*binding.root.setOnClickListener {
                 onItemClickListener?.let {
                     it(article)
                 }
-            }
+            }*/
 
         }
     }

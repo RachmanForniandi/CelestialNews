@@ -22,7 +22,7 @@ import rachmanforniandi.celestialnews.databinding.FragmentNewsBinding
 import rachmanforniandi.celestialnews.presentation.viewmodels.NewsViewModel
 import rachmanforniandi.celestialnews.ui.activity.MainActivity
 
-class NewsFragment : Fragment(R.layout.fragment_news) {
+class NewsFragment : Fragment() {
 
     private  lateinit var viewModel: NewsViewModel
     private lateinit var newsAdapter: NewsAdapter
@@ -46,7 +46,7 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
         fragmentNewsBinding = FragmentNewsBinding.bind(view)
         viewModel = (activity as MainActivity).viewModel
         newsAdapter = (activity as MainActivity).newsAdapter
-        newsAdapter.setOnItemClickListener {
+        /*newsAdapter.setOnItemClickListener {
             val bundle = Bundle().apply {
                 putSerializable("selected_article",it)
             }
@@ -55,7 +55,7 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
                 bundle
             )
             //println("testBundle"+ bundle)
-        }
+        }*/
         initListDataNews()
         viewNewsList()
         setSearchView()
@@ -169,6 +169,15 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
 
             adapter = newsAdapter
             //layoutManager= LinearLayoutManager(activity)
+            newsAdapter.setOnItemClickListener {
+                val bundle = Bundle().apply {
+                    putSerializable("selected_article",it)
+                }
+                findNavController().navigate(
+                    R.id.action_newsFragment_to_infoFragment,
+                    bundle
+                )
+            }
             addOnScrollListener(this@NewsFragment.onScrollListener)
         }
         fragmentNewsBinding.rvNews.setHasFixedSize(true)
