@@ -15,10 +15,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import rachmanforniandi.celestialnews.data.model.Article
 import rachmanforniandi.celestialnews.data.model.NewsResponse
-import rachmanforniandi.celestialnews.domain.usecase.GetNewsHeadlineUseCase
-import rachmanforniandi.celestialnews.domain.usecase.GetSavedNewsUseCase
-import rachmanforniandi.celestialnews.domain.usecase.GetSearchedNewsUseCase
-import rachmanforniandi.celestialnews.domain.usecase.SaveNewsUseCase
+import rachmanforniandi.celestialnews.domain.usecase.*
 import retrofit2.Response
 import java.lang.Exception
 
@@ -27,7 +24,8 @@ class NewsViewModel(private val app:Application,
                     private val getNewsHeadlinesUseCase: GetNewsHeadlineUseCase,
                     private val getSearchedNewsUseCase: GetSearchedNewsUseCase,
                     private val saveNewsUseCase: SaveNewsUseCase,
-                    private val getSavedNewsUseCase: GetSavedNewsUseCase
+                    private val getSavedNewsUseCase: GetSavedNewsUseCase,
+                    private val deleteSavedNewsUseCase: DeleteSavedNewsUseCase
 ) : AndroidViewModel(app) {
     val newsHeadLines: MutableLiveData<Resource<NewsResponse>> = MutableLiveData()
 
@@ -101,6 +99,10 @@ class NewsViewModel(private val app:Application,
         getSavedNewsUseCase.execute().collect {
             emit(it)
         }
+    }
+
+    fun deleteSavedArticle(article: Article)= viewModelScope.launch {
+        deleteSavedNewsUseCase.execute(article)
     }
 
 

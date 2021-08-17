@@ -6,6 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import rachmanforniandi.celestialnews.R
 import rachmanforniandi.celestialnews.adapter.NewsAdapter
 import rachmanforniandi.celestialnews.databinding.FragmentNewsBinding
@@ -47,6 +50,36 @@ class SavedFragment : Fragment() {
         viewModel.getSavedNews().observe(viewLifecycleOwner,{
             newsAdapter.differ.submitList(it)
         })
+
+        //swipe to delete
+        val itemTouchHelperCallback = object :ItemTouchHelper.SimpleCallback(
+            ItemTouchHelper.UP or ItemTouchHelper.DOWN,
+            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+        ){
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return true
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position = viewHolder.adapterPosition
+                val article = newsAdapter.differ.currentList[position]
+                viewModel.deleteSavedArticle(article)
+                Snackbar.make(view,"Delete News Successfully!", Snackbar.LENGTH_LONG)
+                    .apply {
+                        setAction("Undo"){
+                            viewModel.saveArticle(article)
+                        }
+                        show()
+                    }
+            }
+        }
+        ItemTouchHelper(itemTouchHelperCallback).apply {
+            attachToRecyclerView(fragmentSavedBinding.rvSavedNews)
+        }
     }
 
     private fun initListSavedNews() {
