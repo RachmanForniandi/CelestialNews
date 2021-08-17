@@ -1,8 +1,11 @@
 package rachmanforniandi.celestialnews.domain.usecase
 
+import kotlinx.coroutines.flow.Flow
 import rachmanforniandi.celestialnews.data.model.Article
 import rachmanforniandi.celestialnews.domain.repository.NewsRepository
 
 class GetSavedNewsUseCase(private val newsRepository: NewsRepository) {
-    suspend fun execute(article: Article) = newsRepository.savedNews(article)
+    fun execute():Flow<List<Article>> {
+        return newsRepository.getSavedNews()
+    }
 }

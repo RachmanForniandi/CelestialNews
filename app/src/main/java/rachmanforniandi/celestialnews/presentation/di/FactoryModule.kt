@@ -22,10 +22,11 @@ class FactoryModule {
         application: Application,
         getNewsHeadlineUseCase: GetNewsHeadlineUseCase,
         getSearchedNewsUseCase: GetSearchedNewsUseCase,
-        saveNewsUseCase: SaveNewsUseCase
+        saveNewsUseCase: SaveNewsUseCase,
+        getSavedNewsUseCase: GetSavedNewsUseCase
     ):NewsViewModelFactory{
         return NewsViewModelFactory(
             application,
-            getNewsHeadlineUseCase,getSearchedNewsUseCase,saveNewsUseCase)
+            getNewsHeadlineUseCase,getSearchedNewsUseCase,saveNewsUseCase,getSavedNewsUseCase)
     }
 }

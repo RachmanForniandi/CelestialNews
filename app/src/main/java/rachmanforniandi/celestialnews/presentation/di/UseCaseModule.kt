@@ -39,5 +39,13 @@ class UseCaseModule {
         return SaveNewsUseCase(newsRepository)
     }
 
+    @Singleton
+    @Provides
+    fun provideGetSavedNewsUseCase(
+        newsRepository: NewsRepository
+    ):GetSavedNewsUseCase{
+        return GetSavedNewsUseCase(newsRepository)
+    }
+
 
 }

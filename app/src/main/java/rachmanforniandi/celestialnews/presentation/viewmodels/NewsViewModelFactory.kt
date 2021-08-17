@@ -12,7 +12,8 @@ class NewsViewModelFactory(
     private val app: Application,
     private val getNewsHeadlineUseCase: GetNewsHeadlineUseCase,
     private val getSearchedNewsUseCase: GetSearchedNewsUseCase,
-    private val saveNewsUseCase: SaveNewsUseCase
+    private val saveNewsUseCase: SaveNewsUseCase,
+    private val getSavedNewsUseCase: GetSavedNewsUseCase
     ):ViewModelProvider.Factory
 {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
@@ -20,7 +21,8 @@ class NewsViewModelFactory(
             app,
             getNewsHeadlineUseCase,
             getSearchedNewsUseCase,
-            saveNewsUseCase) as T
+            saveNewsUseCase,
+        getSavedNewsUseCase) as T
     }
 
 }

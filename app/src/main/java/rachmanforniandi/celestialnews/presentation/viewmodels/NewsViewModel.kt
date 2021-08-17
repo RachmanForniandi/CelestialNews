@@ -7,13 +7,16 @@ import android.net.NetworkCapabilities
 import android.os.Build
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import rachmanforniandi.celestialnews.helper.Resource
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import rachmanforniandi.celestialnews.data.model.Article
 import rachmanforniandi.celestialnews.data.model.NewsResponse
 import rachmanforniandi.celestialnews.domain.usecase.GetNewsHeadlineUseCase
+import rachmanforniandi.celestialnews.domain.usecase.GetSavedNewsUseCase
 import rachmanforniandi.celestialnews.domain.usecase.GetSearchedNewsUseCase
 import rachmanforniandi.celestialnews.domain.usecase.SaveNewsUseCase
 import retrofit2.Response
@@ -23,7 +26,8 @@ import java.lang.Exception
 class NewsViewModel(private val app:Application,
                     private val getNewsHeadlinesUseCase: GetNewsHeadlineUseCase,
                     private val getSearchedNewsUseCase: GetSearchedNewsUseCase,
-                    private val saveNewsUseCase: SaveNewsUseCase
+                    private val saveNewsUseCase: SaveNewsUseCase,
+                    private val getSavedNewsUseCase: GetSavedNewsUseCase
 ) : AndroidViewModel(app) {
     val newsHeadLines: MutableLiveData<Resource<NewsResponse>> = MutableLiveData()
 
@@ -91,6 +95,12 @@ class NewsViewModel(private val app:Application,
     //local data
     fun saveArticle(article: Article)= viewModelScope.launch {
         saveNewsUseCase.execute(article)
+    }
+
+    fun getSavedNews() = liveData {
+        getSavedNewsUseCase.execute().collect {
+            emit(it)
+        }
     }
 
 
